@@ -17,7 +17,7 @@ defmodule ExmealWeb.MealsController do
     with {:ok, %Meal{} = meal} <- Meals.create_meal(params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("Location", Routes.meals_path(Endpoint, :show, meal.id))
+      |> put_resp_header("location", Routes.meals_path(Endpoint, :show, meal.id))
       |> render("show.json", meal: meal)
     end
   end

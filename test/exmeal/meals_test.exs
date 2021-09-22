@@ -4,10 +4,14 @@ defmodule Exmeal.MealsTest do
   alias Exmeal.Meals
 
   describe "meals" do
-    alias Exmeal.Meals.Meal
+    alias Exmeal.Meal
 
-    @valid_attrs %{calorias: 42, data: ~N[2010-04-17 14:00:00], descricao: "some descricao", id: "7488a646-e31f-11e4-aace-600308960662"}
-    @update_attrs %{calorias: 43, data: ~N[2011-05-18 15:01:01], descricao: "some updated descricao", id: "7488a646-e31f-11e4-aace-600308960668"}
+    @valid_attrs %{calorias: 42, data: ~N[2010-04-17 14:00:00], descricao: "some descricao"}
+    @update_attrs %{
+      calorias: 43,
+      data: ~N[2011-05-18 15:01:01],
+      descricao: "some updated descricao"
+    }
     @invalid_attrs %{calorias: nil, data: nil, descricao: nil, id: nil}
 
     def meal_fixture(attrs \\ %{}) do
@@ -34,7 +38,6 @@ defmodule Exmeal.MealsTest do
       assert meal.calorias == 42
       assert meal.data == ~N[2010-04-17 14:00:00]
       assert meal.descricao == "some descricao"
-      assert meal.id == "7488a646-e31f-11e4-aace-600308960662"
     end
 
     test "create_meal/1 with invalid data returns error changeset" do
@@ -47,7 +50,6 @@ defmodule Exmeal.MealsTest do
       assert meal.calorias == 43
       assert meal.data == ~N[2011-05-18 15:01:01]
       assert meal.descricao == "some updated descricao"
-      assert meal.id == "7488a646-e31f-11e4-aace-600308960668"
     end
 
     test "update_meal/2 with invalid data returns error changeset" do
