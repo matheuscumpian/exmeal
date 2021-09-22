@@ -6,7 +6,7 @@ defmodule Exmeal.Meals do
   import Ecto.Query, warn: false
   alias Exmeal.Repo
 
-  alias Exmeal.Meal
+  alias Exmeal.{Error, Meal}
 
   @doc """
   Returns the list of meals.
@@ -36,6 +36,30 @@ defmodule Exmeal.Meals do
 
   """
   def get_meal!(id), do: Repo.get!(Meal, id)
+
+  @doc """
+  Gets a single meal.
+
+  Raises `Ecto.NoResultsError` if the Meal does not exist.
+
+  ## Examples
+
+      iex> get_meal(123)
+      {:ok, %Meal{}}
+
+      iex> get_meal(456)
+      {:error, "Cannot find meal"}
+
+  """
+  def get_meal(id) do
+    case Repo.get(Meal, id) do
+      %Meal{} = meal ->
+        {:ok, meal}
+
+      nil ->
+        Error.get_not_found_error("meal", id)
+    end
+  end
 
   @doc """
   Creates a meal.

@@ -23,22 +23,21 @@ defmodule ExmealWeb.MealsController do
   end
 
   def show(conn, %{"id" => id}) do
-    meal = Meals.get_meal!(id)
-    render(conn, "show.json", meal: meal)
+    with {:ok, %Meal{} = meal} <- Meals.get_meal(id) do
+      render(conn, "show.json", meal: meal)
+    end
   end
 
   def update(conn, %{"id" => id} = params) do
-    meal = Meals.get_meal!(id)
-
-    with {:ok, %Meal{} = meal} <- Meals.update_meal(meal, params) do
+    with {:ok, %Meal{} = meal} <- Meals.get_meal(id),
+         {:ok, %Meal{} = meal} <- Meals.update_meal(meal, params) do
       render(conn, "show.json", meal: meal)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    meal = Meals.get_meal!(id)
-
-    with {:ok, %Meal{}} <- Meals.delete_meal(meal) do
+    with {:ok, %Meal{} = meal} <- Meals.get_meal(id),
+         {:ok, %Meal{}} <- Meals.delete_meal(meal) do
       send_resp(conn, :no_content, "")
     end
   end

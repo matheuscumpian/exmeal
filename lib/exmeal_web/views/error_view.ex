@@ -1,6 +1,8 @@
 defmodule ExmealWeb.ErrorView do
   use ExmealWeb, :view
 
+  alias Exmeal.Error
+
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.
   # def render("500.json", _assigns) do
@@ -12,5 +14,9 @@ defmodule ExmealWeb.ErrorView do
   # "Not Found".
   def template_not_found(template, _assigns) do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
+  end
+
+  def render("error.json", %{error: %Error{} = error}) do
+    error.payload
   end
 end

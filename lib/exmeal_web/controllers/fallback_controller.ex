@@ -6,6 +6,8 @@ defmodule ExmealWeb.FallbackController do
   """
   use ExmealWeb, :controller
 
+  alias Exmeal.Error
+
   # This clause handles errors returned by Ecto's insert/update/delete.
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
@@ -20,5 +22,16 @@ defmodule ExmealWeb.FallbackController do
     |> put_status(:not_found)
     |> put_view(ExmealWeb.ErrorView)
     |> render(:"404")
+  end
+
+  def call(conn, %Error{status: :not_found}) do
+    send_resp(conn, :not_found, "")
+  end
+
+  def call(conn, %Error{} = error) do
+    conn
+    |> put_status(error.status)
+    |> put_view(ExmealWeb.ErrorView)
+    |> render("error.json", error: error)
   end
 end
